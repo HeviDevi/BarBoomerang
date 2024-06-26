@@ -7,7 +7,7 @@ URI = process.env.DB_URI
 client = new MongoClient(URI)
 let db;
 const dbName = process.env.DB_NAME
-
+routes = require('./routes')
 
 client.connect()
     .then(() => {
@@ -23,3 +23,6 @@ client.connect()
     })
 
     app.use(express.json());
+    app.use(routes)
+
+

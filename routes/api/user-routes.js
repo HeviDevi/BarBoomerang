@@ -1,24 +1,27 @@
 const router = require('express').Router();
 
 
-//CRUD operations for cocktail
+
+
+
+//CRUD operations for username
 
 
 
 router.post('/', (req, res) => {
-    res.send("New Cocktail Added")
+    res.send("New User Added")
 })
 
 router.get('/', (req, res) => {
-    res.send("All Cocktails")
+    res.send("All Users")
 })
 
 router.put('/', (req, res) => {
-    res.send("Cocktail Updated")
+    res.send("User Updated")
 })
 
 router.delete('/', (req, res) => {
-    res.send("Cocktail Deleted")
+    res.send("User Deleted")
 })
 
 
