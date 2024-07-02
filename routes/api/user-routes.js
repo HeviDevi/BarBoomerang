@@ -19,6 +19,19 @@ router.post("/", (req, res) => {
     });
 });
 
+// Add a friend to a user
+router.post("/:userID/friends/:friendID", (req, res) => {
+  User.findByIdAndUpdate(
+    req.params.userID,
+    { $push: { friends: req.params.friendID } },
+    { new: true }
+  )
+  .then(data => {
+    res.json(data)
+  })
+});
+
+//Get all users
 router.get("/", (req, res) => {
   User.find({})
     .exec()
@@ -28,6 +41,7 @@ router.get("/", (req, res) => {
   );
 });
 
+//Get a single user
 router.get("/:id", (req, res) => {
   User.findOne({_id: req.params.id})
   .exec()
@@ -36,6 +50,7 @@ router.get("/:id", (req, res) => {
   });
 })
 
+// Update a user's username or email by id
 router.put("/:id", (req, res) => {
 
   // Ensure the request body looks like this
@@ -51,11 +66,26 @@ router.put("/:id", (req, res) => {
   })
 });
 
+// Delete a user
 router.delete("/:id", (req, res) => {
   User.findByIdAndDelete({_id: req.params.id})
   .then(data => {
     res.send({message: "User deleted"})
   })
 });
+
+// REMOVE A FRIEND from a user by ID
+router.delete("/:userID/friends/:friendID", (req, res) => {
+  User.findByIdAndUpdate(
+    req.params.userID,
+    { $pull: { friends: req.params.friendID } },
+    { new: true }
+  )
+  .then(data => {
+    res.send({message: "Friend removed"})
+  })
+  });
+
+
 
 module.exports = router;
