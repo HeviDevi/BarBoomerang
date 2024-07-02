@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const  Cocktail  = require("../../models/Cocktail");
 
 //CRUD operations for cocktail
 

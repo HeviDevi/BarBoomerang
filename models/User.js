@@ -61,7 +61,7 @@ User.find({})
           },
         ]
       )
-      return console.log("Seed Users added", seedUsers);
+      return console.log("Seed users added", seedUsers);
     };
     return console.log("No seed users added");  
   })
