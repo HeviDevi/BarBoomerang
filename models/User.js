@@ -36,28 +36,48 @@ User.find({})
       const seedUsers = await User.insertMany(
         [
           {
+            _id: "6684726426f756efce752deb",
             username: "HeviDevi",
             email: "tester-email@gmail.com",
             cocktails: [],
-            friends: []
+            friends: [
+              "6684726426f756efce752dec", 
+              "6684726426f756efce752ded", 
+              "6684726426f756efce752dee"
+            ]
           },
           {
+            _id: "6684726426f756efce752dec",
             username: "Clarissa 'Boss Man' Mobley",
             email: "tester-email2@gmail.com",
             cocktails: [],
-            friends: []
+            friends: [
+              "6684726426f756efce752deb",
+              "6684726426f756efce752ded",
+              "6684726426f756efce752dee"
+            ]
           },
           {
+            _id: "6684726426f756efce752ded",
             username: "Alex The Great",
             email: "tester-email3@gmail.com",
             cocktails: [],
-            friends: []
+            friends: [
+              "6684726426f756efce752deb",
+              "6684726426f756efce752dec",
+              "6684726426f756efce752dee"
+            ]
           },
           {
+            _id:  "6684726426f756efce752dee",
             username: "Big Eddie",
             email: "tester-email4@gmail.com",
             cocktails: [],
-            friends: []
+            friends: [
+              "6684726426f756efce752deb",
+              "6684726426f756efce752dec",
+              "6684726426f756efce752ded"
+            ]
           },
         ]
       )

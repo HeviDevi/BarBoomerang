@@ -71,8 +71,8 @@ Cocktail.find({})
         },
       ]
     )
-    for (const cocktail of seedCocktails) {
-      await User.updateOne(
+    for  (const cocktail of seedCocktails) {
+      await User.updateMany(
         { _id: cocktail.userID }, 
         { $push: { cocktails: cocktail._id } }
       );
