@@ -82,4 +82,39 @@ router.delete("/:id", (req, res) => {
     });
 });
 
+
+//CRUD routes for COMMENTS
+
+router.post("/:CocktailId/comments/:userId", async (req, res) => {
+  // Ensure the request body looks like this & include the user ID in the URL as a parameter of the request
+  //   {
+  //     "commentText": "intended comment",
+  //   },
+
+  // We find the cocktail by ID and then push the new comment to the comments array
+  req.body.userId = req.params.userId,
+  Cocktail.findOneAndUpdate({ _id: req.params.CocktailId },
+    { $push: { comments: req.body } },
+    { new: true }
+  )
+    .exec()
+    .then((result) => {
+      res.json(result);
+    });
+});
+
+// Delete a comment by ID using the findOneAndUpdate method
+router.delete("/:CocktailId/comments/:commentId", (req, res) => {
+  // We find the cocktail by ID and then pull the comment from the comments array
+  Cocktail.findOneAndUpdate({ _id: req.params.CocktailId },
+    { $pull: { comments: { commentId: req.params.commentId } } }
+  )
+    .exec()
+    .then((result) => {
+      res.json(result);
+    });
+});
+
+
+
 module.exports = router;

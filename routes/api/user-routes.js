@@ -4,15 +4,15 @@ const Cocktail = require ("../../models/Cocktail");
 const Comment = require ("../../models/Comment");
 
 
-//CRUD operations for username
+//CRUD operations for Users
 
 // Create a new user
 router.post("/", (req, res) => {
 
   // Ensure the request body looks like this
   //   {      
-  //   "username": "username",
-  //   "email": "email",
+  //   "username": "intended username",
+  //   "email": "intended email",
   //    }, 
 
   User.create(req.body)
@@ -21,17 +21,6 @@ router.post("/", (req, res) => {
     });
 });
 
-// Add a friend to a user
-router.post("/:userID/friends/:friendID", (req, res) => {
-  User.findByIdAndUpdate(
-    req.params.userID,
-    { $push: { friends: req.params.friendID } },
-    { new: true }
-  )
-  .then(data => {
-    res.json(data)
-  })
-});
 
 //Get all users
 router.get("/", (req, res) => {
@@ -70,13 +59,7 @@ router.put("/:id", (req, res) => {
 
 // Delete a user
 router.delete("/:id", (req, res) => {
-  Comment.deleteMany({userID: req.params.id})
-  .exec()
-  .then(data => {
-    console.log("Users comments deleted sucsessfully")})
-    .catch(err => {
-      console.log(err, "Error deleting users comments")
-    })
+    // Delete all cocktails by user
     Cocktail.deleteMany({userID: req.params.id})
     .exec()
     .then(data => {
@@ -84,12 +67,28 @@ router.delete("/:id", (req, res) => {
       .catch(err => {
         console.log(err, "Error deleting users cocktails")
       })
+      // Delete user
       User.findByIdAndDelete({_id: req.params.id})
       .exec()
       .then(data => {
         res.send({message: "User's Comments, Cocktails and profile have been deleted"})
       })
   })
+
+
+// CRUD routes for friends
+
+// Add a friend to a user
+router.put("/:userID/friends/:friendID", (req, res) => {
+  User.findByIdAndUpdate(
+    req.params.userID,
+    { $push: { friends: req.params.friendID } },
+    { new: true }
+  )
+  .then(data => {
+    res.json(data)
+  })
+});
 
 // REMOVE A FRIEND from a user by ID
 router.delete("/:userID/friends/:friendID", (req, res) => {
