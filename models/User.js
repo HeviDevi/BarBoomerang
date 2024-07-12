@@ -4,10 +4,10 @@ const userSchema = new mongoose.Schema(
     username: { type: String, required: true },
     //Need to look into validation for email
     email: { type: String, required: true, unique: true },
-    cocktails: [
+    thoughts: [
       { 
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Cocktail",
+        ref: "Thought",
         required: false, 
       }
     ],
@@ -39,7 +39,7 @@ User.find({})
             _id: "6684726426f756efce752deb",
             username: "HeviDevi",
             email: "tester-email@gmail.com",
-            cocktails: [],
+            thoughts: [],
             friends: [
               "6684726426f756efce752dec", 
               "6684726426f756efce752ded", 
@@ -50,7 +50,7 @@ User.find({})
             _id: "6684726426f756efce752dec",
             username: "Clarissa 'Boss Man' Mobley",
             email: "tester-email2@gmail.com",
-            cocktails: [],
+            thoughts: [],
             friends: [
               "6684726426f756efce752deb",
               "6684726426f756efce752ded",
@@ -61,7 +61,7 @@ User.find({})
             _id: "6684726426f756efce752ded",
             username: "Alex The Great",
             email: "tester-email3@gmail.com",
-            cocktails: [],
+            thoughts: [],
             friends: [
               "6684726426f756efce752deb",
               "6684726426f756efce752dec",
@@ -72,7 +72,7 @@ User.find({})
             _id:  "6684726426f756efce752dee",
             username: "Big Eddie",
             email: "tester-email4@gmail.com",
-            cocktails: [],
+            thoughts: [],
             friends: [
               "6684726426f756efce752deb",
               "6684726426f756efce752dec",
@@ -90,8 +90,8 @@ userSchema.virtual("friendCount").get(function () {
     return this.friends.length;
 });
 
-userSchema.virtual("cocktailCount").get(function () {
-    return this.cocktails.length;
+userSchema.virtual("thoughtCount").get(function () {
+    return this.thoughts.length;
 });
 
 

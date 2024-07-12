@@ -1,13 +1,12 @@
 const mongoose = require('mongoose');
 
-const commentSchema = new mongoose.Schema({
-    
-    commentId: {
+const reactionSchema = new mongoose.Schema({
+    reactionId: {
         type: mongoose.Schema.Types.ObjectId,
         default: () => new mongoose.Types.ObjectId()
     },
     userId: {type: String, required: true},
-    commentText: {
+    reactionText: {
         type: String, 
         required: true,
         maxLength: 280, 
@@ -20,6 +19,6 @@ const commentSchema = new mongoose.Schema({
 
 );
 
-const Comment = mongoose.model('Comment', commentSchema);
+const Reaction = mongoose.model('Reaction', reactionSchema);
 
-module.exports = Comment;
+module.exports = Reaction;

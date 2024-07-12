@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const User  = require("../../models/User");
-const Cocktail = require ("../../models/Cocktail");
-const Comment = require ("../../models/Comment");
+const Thought = require ("../../models/Thought");
+const Reaction = require ("../../models/Reaction");
 
 
 //CRUD operations for Users
@@ -59,19 +59,19 @@ router.put("/:id", (req, res) => {
 
 // Delete a user
 router.delete("/:id", (req, res) => {
-    // Delete all cocktails by user
-    Cocktail.deleteMany({userID: req.params.id})
+    // Delete all thoughts by user
+    Thought.deleteMany({userID: req.params.id})
     .exec()
     .then(data => {
-      console.log("Users cocktails deleted sucsessfully")})
+      console.log("User's thoughts deleted sucsessfully")})
       .catch(err => {
-        console.log(err, "Error deleting users cocktails")
+        console.log(err, "Error deleting users thoughts")
       })
       // Delete user
       User.findByIdAndDelete({_id: req.params.id})
       .exec()
       .then(data => {
-        res.send({message: "User's Comments, Cocktails and profile have been deleted"})
+        res.send({message: "User's thoughts and profile have been deleted"})
       })
   })
 
