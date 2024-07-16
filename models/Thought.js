@@ -5,12 +5,16 @@ const reactionSchema = Reaction.schema;
 
 const thoughtSchema = new mongoose.Schema(
   {
-    username: { 
+    userId: { 
       type: String,
-      unique: true,
-      ref: "User",
-      required: true
+      required: true,
+      unique: false,
       },
+    username: {
+      type: String,
+      required: false,
+      unique: false,
+    },
     thoughtText: { 
       type: String,
       required: true,
@@ -29,6 +33,9 @@ const thoughtSchema = new mongoose.Schema(
 
 const Thought = mongoose.model("Thoughts", thoughtSchema);
 
+// // Seed thoughts to be implemented, 
+//Couldn't get the thoughts pushed in the user's thoughts array ;( sad face
+
 Thought.find({})
 .exec()
 .then( async thoughtArray => {
@@ -36,45 +43,41 @@ Thought.find({})
     const seedThoughts = await Thought.insertMany(
       [
         {
-          userID: "6684726426f756efce752deb",
-          username: "HeviDevi",
+          userId: "6684726426f756efce752deb",
           thoughtText: "It's 5 o'clock somewhere!",
           reactions: [],
           createdAt: new Date()
         },
         {
-          userID: "6684726426f756efce752dec",
-          username: "Clarissa 'Boss Man' Mobley",
-          thoughtText: "Rainy today isn't it?",
-          reations: [],
-          createdAt: new Date()
-        },
-        {
-          userID: "6684726426f756efce752ded",
-          username: "Alex The Great",
-          thoughtText: "I like turtles",
+          userId: "6684726426f756efce752dec",
+          thoughtText: "Rainy today isn't it? Perfect for a Martini.",
           reactions: [],
           createdAt: new Date()
         },
         {
-          userID: "6684726426f756efce752dee",
-          username: "Big Eddie",
-          thoughtText: "Hello There",
+          userId: "6684726426f756efce752ded",
+          thoughtText: "I like turtles. And Old Fashioneds.",
+          reactions: [],
+          createdAt: new Date()
+        },
+        {
+          userId: "6684726426f756efce752dee",
+          thoughtText: "Hello There, Mojito Time.",
           reactions: [],
           createdAt: new Date()
         },
       ]
     )
-    for  (const thought of seedThoughts) {
-      await User.updateMany(
-        { _id: thought.userID }, 
-        { $push: { thoughts: thought._id } }
+    for (const thought of seedThoughts) {
+      await User.updateOne(
+        { _id: thought.userId }, // Match users by their userId
+        { $push: { thoughts: thought._id } } // Push the thought's _id into the user's thoughts array
       );
     }
-    return console.log("Seed thoughts added", seedThoughts)
+    return console.log("Seed thoughts added", seedThoughts);
   }
-  return console.log("No seed thoughts added")
-})
+  return console.log("No seed thoughts added");
+});
 
 thoughtSchema.virtual("reactionCount").get(function () {
     return this.reactions.length;

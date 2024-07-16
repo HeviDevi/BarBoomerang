@@ -59,8 +59,17 @@ router.put("/:id", (req, res) => {
 
 // Delete a user
 router.delete("/:id", (req, res) => {
+    // Delete all reactions by user
+    Thought.updateMany({reactions: {userId: req.params.id}}, 
+    {$pull: {reactions: {userId: req.params.id}}})
+    .exec()
+    .then(data => {
+      console.log("User's reactions deleted sucsessfully")})
+      .catch(err => {
+        console.log(err, "Error deleting users reactions")
+    })
     // Delete all thoughts by user
-    Thought.deleteMany({userID: req.params.id})
+    Thought.deleteMany({userId: req.params.id})
     .exec()
     .then(data => {
       console.log("User's thoughts deleted sucsessfully")})

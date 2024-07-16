@@ -4,7 +4,7 @@ const User = require("../../models/User");
 
 //CRUD operations for thoughts
 
-router.post("/:id", (req, res) => {
+router.post("/:id", async (req, res) => {
   // Ensure the request body looks like this
   //   {
   //     "thoughtText": "intended thought",
@@ -14,21 +14,21 @@ router.post("/:id", (req, res) => {
   // We create a new thought by combining the request body with the user ID and then passing that new object to the create function
   const newThoughtData = {
     ...req.body,
-    username: req.params.id,
+    userId: req.params.id,
   };
 
-  Thought.create(newThoughtData)
-
-    //Then the user that added the thought will have the thought ID added to their cocktail array
-    .then((data) => {
-      return User.updateOne(
-        { _id: data.username },
-        { $push: { thoughts: data._id } }
-      );
-    })
-    .then((data) => {
-      res.json(data);
-    });
+  try {
+    const thought = await Thought.create(newThoughtData);
+    // Then the user that added the thought will have the thought ID added to their thoughts array
+    await User.findOneAndUpdate(
+      { _id: req.params.id },
+      { $push: { thoughts: thought._id } },
+      { new: true } // This will return the updated user data
+    );
+    res.json({ message: "Thought created and added to User's array", data: thought });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to create thought and update user", error: error });
+  }
 });
 
 //Get all thoughts using the find method with no parameters
@@ -49,8 +49,9 @@ router.get("/:id", (req, res) => {
 
 // Update a thought by ID using the findOneAndUpdate method, we do not need to update the user's cocktail array, as the cocktail ID will not be altered.
 router.put("/:id", (req, res) => {
-  Thought.findOneAndUpdate({ _id: req.params.id }, req.body).then((data) => {
-    res.send({
+  Thought.findOneAndUpdate({ _id: req.params.id }, req.body)
+  .then((data) => {
+    res.json({
       message: "Thought Updated",
     });
   });
@@ -73,7 +74,7 @@ router.delete("/:id", (req, res) => {
   Thought.findOneAndDelete({ _id: req.params.id })
     .exec()
     .then((data) => {
-      res.send( "Thought has been deleted" ),
+      res.json( {message: "Thought has been deleted"} ),
         console.log("Thought deleted");
     })
     .catch((err) => {
@@ -110,7 +111,7 @@ router.delete("/:ThoughtId/reactions/:reactionId", (req, res) => {
   )
     .exec()
     .then((result) => {
-      res.json(result);
+      res.json({message: "Reaction deleted", result});
     });
 });
 
