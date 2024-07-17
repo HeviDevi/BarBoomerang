@@ -1,11 +1,11 @@
 const { MongoClient } = require("mongodb");
-express = require("express");
+const express = require("express");
 require("dotenv").config();
-app = express();
-PORT = 3001;
-URI = process.env.DB_URI;
+const app = express();
+const PORT = 3001;
+const URI = process.env.DB_URI;
 client = new MongoClient(URI);
-let db = require("./config/connection");
+const mongooseConnection = require("./config/connection");
 const dbName = process.env.DB_NAME;
 routes = require("./routes");
 
@@ -26,8 +26,8 @@ client
 app.use(express.json());
 app.use(routes);
 
-app.once('open', () => {
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-  })
-})
+// app.once('open', () => {
+//   app.listen(PORT, () => {
+//     console.log(`Server is running on port ${PORT}`);
+//   })
+// })
