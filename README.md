@@ -1,6 +1,6 @@
 # BarBoomerang
 
-BarBoomerang is a scalable, easy-to-use social media platform designed to allow users to share thoughts on the hospitality industry and react to other user's thoughts while building a network of friends in the app.
+BarBoomerang is an easy-to-use social media platform designed to allow users to share thoughts on the hospitality industry and react to other user's thoughts while building a network of friends in the app.
 
 ## Table of Contents
 
