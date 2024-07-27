@@ -60,7 +60,7 @@ This project was developed by Devon "HeviDevi" Ross
 
 - RESTful API for managing users, thoughts, and reactions.
 - Seamless integration with MongoDB for robust data management.
-- Scalable architecture suitable for social platforms of any size.
+
 
 ## Link to Walkthrough Video
 https://www.loom.com/share/949c53c0b3264096893209030015da0a 
